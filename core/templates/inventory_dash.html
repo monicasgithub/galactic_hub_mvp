@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest' };</script>
+  <script crossorigin="anonymous" referrerpolicy="no-referrer"
+    src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&display=swap"
+    rel="stylesheet"/>
+  <link href="{% static 'galactic-theme.css' %}" rel="stylesheet"/>
+</head>
+<body class="bg-black text-gray-200">
+
+  <!-- header/nav -->
+  <header class="fixed w-full bg-black/90 backdrop-blur-lg border-b border-gray-800 z-50" id="header">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center">
+          <i class="fa-brands fa-jedi-order text-4xl text-yellow-500 mr-3"></i>
+          <span class="text-2xl font-bold">The Galactic Hub</span>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+          <a class="hover:text-yellow-500" href="{% url 'index' %}">Home</a>
+          <a class="hover:text-yellow-500" href="{% url 'products' %}">Shop</a>
+          <a class="hover:text-yellow-500" href="{% url 'inventory_dashboard' %}">Inventory</a>
+          <a class="hover:text-yellow-500" href="{% url 'auction' %}">Auctions</a>
+          <a class="hover:text-yellow-500" href="{% url 'wishlist' %}">Wishlist</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-search"></i></button>
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-user"></i></button>
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-shopping-cart mr-2"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex pt-20">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-gray-900 h-screen border-r border-gray-800 fixed" id="sidebar">
+      <!-- … your quick links … -->
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 ml-64 p-6" id="main-content">
+      <div class="mb-8" id="page-header">
+        <h1 class="text-3xl font-bold aurebesh text-yellow-500 mb-2">INVENTORY DASHBOARD</h1>
+        <p class="text-gray-400">Manage your galactic merchandise collection</p>
+      </div>
+
+      <!-- Metrics panel -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" id="metrics-panel">
+        <!-- … unchanged … -->
+      </div>
+
+      <!-- Controls -->
+      <div class="bg-gradient-dark p-6 rounded-lg mb-6 border border-gray-700" id="inventory-controls">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+          <div class="flex items-center space-x-4">
+            <!-- search and scan -->
+          </div>
+          <div class="flex items-center space-x-4">
+            <a href="{% url 'add_inventory_item' %}"
+               class="bg-yellow-500 hover:bg-yellow-400 text-black px-6 py-2 rounded-lg font-bold transition-colors border-glow">
+              <i class="fas fa-plus mr-2"></i>Add New Product
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory table -->
+      <div class="bg-gradient-dark rounded-lg overflow-hidden border border-gray-700" id="inventory-table">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-gray-900 border-b border-gray-700">
+              <tr>
+                <th class="px-6 py-4"><input type="checkbox" class="rounded border-gray-600 w-4 h-4"/></th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Item Name</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">SKU</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Category</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Stock</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Price</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Status</th>
+                <th class="px-6 py-4 text-left text-sm font-medium text-gray-300">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-700">
+              {% for product in products %}
+              <tr class="hover:bg-gray-700 transition-colors">
+                <td class="px-6 py-4"><input type="checkbox" class="rounded border-gray-600 w-4 h-4"/></td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-3">
+                    <img src="{{ product.image_url.url }}"
+                         alt="{{ product.name }}"
+                         class="w-12 h-12 rounded-lg object-cover border border-gray-600"/>
+                    <span class="text-white font-medium">{{ product.name }}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-gray-300 font-mono">{{ product.sku }}</td>
+                <td class="px-6 py-4 text-gray-300">{{ product.category }}</td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-2">
+                    {% if product.quantity > 5 %}
+                      <div class="w-4 h-4 crystal-green rounded-full"></div>
+                      <span class="text-green-400 font-bold">{{ product.quantity }}</span>
+                    {% elif product.quantity > 0 %}
+                      <div class="w-4 h-4 crystal-orange rounded-full"></div>
+                      <span class="text-orange-400 font-bold">{{ product.quantity }}</span>
+                    {% else %}
+                      <div class="w-4 h-4 crystal-red rounded-full"></div>
+                      <span class="text-red-400 font-bold">0</span>
+                    {% endif %}
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-gray-300 font-bold">${{ product.price }}</td>
+                <td class="px-6 py-4">
+                  {% if product.availability_status == 'available' %}
+                    <span class="px-3 py-1 bg-green-900 text-green-300 rounded-full text-xs font-medium border border-green-700">
+                      In Stock
+                    </span>
+                  {% elif product.availability_status == 'out-of-stock' %}
+                    <span class="px-3 py-1 bg-red-900 text-red-300 rounded-full text-xs font-medium border border-red-700">
+                      Out of Stock
+                    </span>
+                  {% else %}
+                    <span class="px-3 py-1 bg-gray-900 text-gray-300 rounded-full text-xs font-medium">
+                      Discontinued
+                    </span>
+                  {% endif %}
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-3">
+                    <a href="{% url 'edit_inventory_item' product.id %}"
+                       class="text-yellow-500 hover:text-yellow-400 p-1">
+                      <i class="fas fa-edit text-lg"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="8" class="px-6 py-4 text-center text-gray-400">
+                  No inventory items found.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

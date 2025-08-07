@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="container mx-auto px-4 py-8 pt-28" id="main-content">
+  <!-- Hero -->
+  <section class="text-center mb-12" id="hero-section">
+    <h1 class="text-5xl font-black orbitron text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-500 mb-4">
+      Live Galactic Auctions
+    </h1>
+    <p class="text-xl text-gray-300">Bid on rare Star Wars collectibles from across the galaxy</p>
+  </section>
+
+  <!-- Search & Create -->
+  <section class="mb-8" id="search-section">
+    <div class="relative max-w-2xl mx-auto mb-4">
+      <input
+        class="w-full bg-gray-800 border border-gray-700 rounded-lg px-6 py-4 text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none"
+        placeholder="Search auction items..." type="text"/>
+      <i class="fa-solid fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-yellow-500"></i>
+    </div>
+    <div class="flex justify-center">
+      <a
+        href="{% url 'create_auction_item' %}"
+        class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg transition-colors flex items-center"
+      >
+        <i class="fa-solid fa-gavel mr-2"></i>
+        Create Auction
+      </a>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="mb-8" id="filters-section">
+    <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-yellow-500 mb-2">Sort By</label>
+          <select class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white">
+            <option>Time Remaining</option>
+            <option>Bid Amount</option>
+            <option>Popularity</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-yellow-500 mb-2">Category</label>
+          <select class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white">
+            <option>All Categories</option>
+            <option>Lightsabers</option>
+            <option>Figures</option>
+            <option>Ships</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-yellow-500 mb-2">Condition</label>
+          <select class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white">
+            <option>All Conditions</option>
+            <option>Mint</option>
+            <option>Near Mint</option>
+            <option>Good</option>
+            <option>Fair</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-yellow-500 mb-2">Item Type</label>
+          <select class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white">
+            <option>All Types</option>
+            <option>Physical</option>
+            <option>NFT</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Active Auctions -->
+  <section class="mb-12" id="live-auctions">
+    <h2 class="text-3xl font-bold orbitron text-yellow-500 mb-6">Active Auctions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {% for auction in auctions|slice:":4" %}
+        <div
+          class="bg-gray-800 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer"
+          onclick="location.href='{% url 'auction_detail' auction.id %}'"
+        >
+          <img
+            alt="{{ auction.product_name }}"
+            class="w-full h-48 object-cover rounded-lg mb-4"
+            src="{{ auction.image_url.url }}"
+          />
+          <h3 class="font-bold text-lg mb-2">{{ auction.product_name }}</h3>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-yellow-500 font-semibold">${{ auction.starting_bid }}</span>
+            <span class="text-green-400 orbitron">
+              {% with remaining=auction.start_time|timesince:now %}
+                {{ remaining }}
+              {% endwith %}
+            </span>
+          </div>
+          <button
+            class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition-colors"
+          >
+            Place Bid
+          </button>
+        </div>
+      {% empty %}
+        <p class="text-gray-400">No active auctions.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Upcoming Auctions -->
+  <section class="mb-12" id="upcoming-auctions">
+    <h2 class="text-3xl font-bold orbitron text-yellow-500 mb-6">Upcoming Auctions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for auction in auctions|slice:"4:" %}
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+          <img
+            alt="{{ auction.product_name }}"
+            class="w-full h-32 object-cover rounded-lg mb-4"
+            src="{{ auction.image_url.url }}"
+          />
+          <h3 class="font-bold text-lg mb-2">{{ auction.product_name }}</h3>
+          <p class="text-gray-400 mb-2">
+            Starting: {{ auction.start_time|date:"M d, Y, P" }}
+          </p>
+          <p class="text-yellow-500 font-semibold">
+            Starting Bid: ${{ auction.starting_bid }}
+          </p>
+          <button
+            class="w-full mt-4 bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded transition-colors"
+            onclick="location.href='{% url 'auction_detail' auction.id %}'"
+          >
+            Set Reminder
+          </button>
+        </div>
+      {% empty %}
+        <p class="text-gray-400">No upcoming auctions.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Alerts -->
+  <section class="text-center" id="alert-section">
+    <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+      <h3 class="text-2xl font-bold orbitron text-yellow-500 mb-4">Never Miss an Auction</h3>
+      <p class="text-gray-300 mb-6">
+        Subscribe to auction alerts and get notified about rare items matching your interests
+      </p>
+      <button
+        class="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-8 rounded-lg transition-colors"
+      >
+        <i class="fa-solid fa-bell mr-2"></i>Enable Auction Alerts
+      </button>
+    </div>
+  </section>
+</main>
+{% endblock %}
+

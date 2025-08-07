@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>window.FontAwesomeConfig = { autoReplaceSvg: 'nest' };</script>
+  <script crossorigin="anonymous" referrerpolicy="no-referrer"
+          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&display=swap"
+    rel="stylesheet"/>
+  <link href="{% static 'galactic-theme.css' %}" rel="stylesheet"/>
+</head>
+<body class="bg-black text-gray-200">
+  <!-- header/nav unchanged -->
+  <header class="fixed w-full bg-black/90 backdrop-blur-lg border-b border-gray-800 z-50" id="header">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-20">
+        <div class="flex items-center">
+          <i class="fa-brands fa-jedi-order text-4xl text-yellow-500 mr-3"></i>
+          <span class="text-2xl font-bold">The Galactic Hub</span>
+        </div>
+        <nav class="hidden md:flex space-x-8">
+          <a class="hover:text-yellow-500" href="{% url 'index' %}">Home</a>
+          <a class="hover:text-yellow-500" href="{% url 'products' %}">Shop</a>
+          <a class="hover:text-yellow-500" href="{% url 'inventory_dashboard' %}">Inventory</a>
+          <a class="hover:text-yellow-500" href="{% url 'auction' %}">Auctions</a>
+          <a class="hover:text-yellow-500" href="{% url 'wishlist' %}">Wishlist</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-search"></i></button>
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-user"></i></button>
+          <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-shopping-cart mr-2"></i></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="pt-24 pb-12">
+    <div class="container mx-auto px-4">
+      <form method="post" enctype="multipart/form-data" class="flex flex-col lg:flex-row gap-8">
+        {% csrf_token %}
+        <div class="lg:w-3/4 space-y-8">
+          <!-- Progress Indicator (static) -->
+          <div id="progress-section" class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+              <h1 class="text-3xl font-bold aurebesh text-yellow-500">CREATE NEW AUCTION LISTING</h1>
+              <span class="text-sm text-gray-400">Progress: 0%</span>
+            </div>
+            <div class="w-full bg-gray-800 rounded-full h-2">
+              <div class="bg-yellow-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Item Images -->
+          <div id="image-upload-section"
+               class="bg-gradient-dark rounded-lg shadow-lg p-6 mb-8 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4 text-yellow-500">Item Images</h2>
+            <!-- Single file input for your one image_url field -->
+            {{ form.image_url }}
+            {{ form.image_url.errors }}
+          </div>
+
+          <!-- Item Details -->
+          <div id="item-details-section"
+               class="bg-gradient-dark rounded-lg shadow-lg p-6 mb-8 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4 text-yellow-500">Item Details</h2>
+            <div class="space-y-6">
+              <div>
+                <label for="id_product_name"
+                       class="block text-sm font-medium text-gray-300 mb-1">Item Name</label>
+                {{ form.product_name }}
+                {{ form.product_name.errors }}
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="id_category"
+                         class="block text-sm font-medium text-gray-300 mb-1">Category</label>
+                  {{ form.category }}
+                  {{ form.category.errors }}
+                </div>
+                <div>
+                  <label for="id_condition"
+                         class="block text-sm font-medium text-gray-300 mb-1">Condition</label>
+                  {{ form.condition }}
+                  {{ form.condition.errors }}
+                </div>
+              </div>
+              <div>
+                <label for="id_description"
+                       class="block text-sm font-medium text-gray-300 mb-1">Description</label>
+                {{ form.description }}
+                {{ form.description.errors }}
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label for="id_year_of_production"
+                         class="block text-sm font-medium text-gray-300 mb-1">Year of Production</label>
+                  {{ form.year_of_production }}
+                  {{ form.year_of_production.errors }}
+                </div>
+                <div>
+                  <label for="id_dimensions"
+                         class="block text-sm font-medium text-gray-300 mb-1">Dimensions</label>
+                  {{ form.dimensions }}
+                  {{ form.dimensions.errors }}
+                </div>
+                <div>
+                  <label for="id_authentication"
+                         class="block text-sm font-medium text-gray-300 mb-1">Authentication</label>
+                  {{ form.authentication }}
+                  {{ form.authentication.errors }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Auction Settings -->
+          <div id="auction-settings-section"
+               class="bg-gradient-dark rounded-lg shadow-lg p-6 mb-8 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4 text-yellow-500">Auction Settings</h2>
+            <div class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label for="id_starting_bid"
+                         class="block text-sm font-medium text-gray-300 mb-1">Starting Bid</label>
+                  {{ form.starting_bid }}
+                  {{ form.starting_bid.errors }}
+                </div>
+                <div>
+                  <label for="id_reserve_price"
+                         class="block text-sm font-medium text-gray-300 mb-1">Reserve Price (Optional)</label>
+                  {{ form.reserve_price }}
+                  {{ form.reserve_price.errors }}
+                </div>
+                <div>
+                  <label for="id_buy_now_price"
+                         class="block text-sm font-medium text-gray-300 mb-1">Buy Now Price (Optional)</label>
+                  {{ form.buy_now_price }}
+                  {{ form.buy_now_price.errors }}
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="id_duration"
+                         class="block text-sm font-medium text-gray-300 mb-1">Duration (days)</label>
+                  {{ form.duration }}
+                  {{ form.duration.errors }}
+                </div>
+                <div>
+                  <label for="id_start_time"
+                         class="block text-sm font-medium text-gray-300 mb-1">Start Time</label>
+                  {{ form.start_time }}
+                  {{ form.start_time.errors }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Options -->
+          <div id="shipping-section"
+               class="bg-gradient-dark rounded-lg shadow-lg p-6 mb-8 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4 text-yellow-500">Shipping Options</h2>
+            <div class="space-y-6">
+              <div>
+                <label for="id_shipping_options"
+                       class="block text-sm font-medium text-gray-300 mb-1">Shipping Options</label>
+                {{ form.shipping_options }}
+                {{ form.shipping_options.errors }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div id="action-buttons" class="flex items-center justify-between">
+            <button type="button"
+                    class="px-6 py-2 border border-gray-300 rounded-md text-gray-400 hover:bg-gray-700">
+              Save as Draft
+            </button>
+            <button type="submit"
+                    class="px-8 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500 font-medium">
+              List for Auction
+            </button>
+          </div>
+        </div>
+
+        <!-- Tips Sidebar (static) -->
+        <div class="lg:w-1/4 space-y-8">
+          <div id="tips-sidebar" class="bg-white rounded-lg shadow-sm p-6 sticky top-24">
+            <h3 class="text-lg font-semibold mb-4">Tips for Success</h3>
+            <div class="space-y-4 text-gray-600">
+              <p><i class="fa-solid fa-camera text-yellow-400 mr-2"></i>Use high-quality images.</p>
+              <p><i class="fa-solid fa-pencil text-yellow-400 mr-2"></i>Write detailed descriptions.</p>
+              <p><i class="fa-solid fa-tag text-yellow-400 mr-2"></i>Set competitive starting bids.</p>
+              <p><i class="fa-solid fa-certificate text-yellow-400 mr-2"></i>Include authentication details.</p>
+              <p><i class="fa-solid fa-truck text-yellow-400 mr-2"></i>Offer multiple shipping options.</p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

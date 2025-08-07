@@ -1,0 +1,280 @@
+<html class=""><head>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+      window.FontAwesomeConfig = {
+          autoReplaceSvg: 'nest', // Options: 'nest', 'remove', 'replace'
+      };
+  </script>
+<script crossorigin="anonymous" referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&amp;display=swap" rel="stylesheet"/><link href="galactic-theme.css" rel="stylesheet"/></head>
+<body class="h-full text-base-content">
+<div class="bg-black text-gray-200 min-h-screen">
+<header class="fixed w-full bg-black/90 backdrop-blur-lg border-b border-gray-800 z-50" id="header">
+<div class="container mx-auto px-4">
+<div class="flex items-center justify-between h-20">
+<div class="flex items-center">
+<i class="fa-brands fa-jedi-order text-4xl text-yellow-500 mr-3"></i>
+<span class="text-2xl font-bold">The Galactic Hub</span>
+</div>
+<nav class="hidden md:flex space-x-8">
+<a class="hover:text-yellow-500" href="{% url 'index' %}">Home</a>
+<a class="hover:text-yellow-500" href="{% url 'products' %}">Shop</a>
+<a class="hover:text-yellow-500" href="{% url 'inventory_dashboard' %}">Inventory</a>
+<a class="hover:text-yellow-500" href="{% url 'auction' %}">Auctions</a>
+<a class="hover:text-yellow-500" href="{% url 'wishlist' %}">Wishlist</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="p-2 hover:text-yellow-500">
+<i class="fa-solid fa-search"></i>
+</button>
+<button class="p-2 hover:text-yellow-500">
+<i class="fa-solid fa-user"></i>
+</button>
+<button class="p-2 hover:text-yellow-500">
+<i class="fa-solid fa-shopping-cart mr-2"></i>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 py-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8" id="wishlist-header">
+<h1 class="text-4xl font-bold text-yellow-400 mb-4 md:mb-0">My Galactic Wishlist</h1>
+<div class="flex space-x-4">
+<button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg flex items-center">
+<i class="fa-solid fa-broom mr-2"></i> Clean Up Wishlist
+                </button>
+<button class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg flex items-center">
+<i class="fa-solid fa-share-nodes mr-2"></i> Share
+                </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" id="wishlist-stats">
+<div class="bg-gray-800 rounded-xl p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-gray-400">Total Items</p>
+<h3 class="text-3xl font-bold">24</h3>
+</div>
+<i class="fa-solid fa-cube text-3xl text-yellow-400"></i>
+</div>
+</div>
+<div class="bg-gray-800 rounded-xl p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-gray-400">Total Value</p>
+<h3 class="text-3xl font-bold">$2,450</h3>
+</div>
+<i class="fa-solid fa-credits text-3xl text-yellow-400"></i>
+</div>
+</div>
+<div class="bg-gray-800 rounded-xl p-6">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-gray-400">Available Items</p>
+<h3 class="text-3xl font-bold">18</h3>
+</div>
+<i class="fa-solid fa-check-circle text-3xl text-green-500"></i>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between gap-4 mb-8" id="wishlist-controls">
+<div class="flex-1">
+<div class="relative">
+<input class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 pl-10" placeholder="Search your wishlist..." type="text"/>
+<i class="fa-solid fa-search absolute left-3 top-3 text-gray-400"></i>
+</div>
+</div>
+<div class="flex gap-4">
+<select class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2">
+<option>Sort by</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Name</option>
+<option>Date Added</option>
+</select>
+<select class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2">
+<option>All Categories</option>
+<option>Action Figures</option>
+<option>Vintage Posters</option>
+<option>Collectibles</option>
+</select>
+<button class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2">
+<i class="fa-solid fa-grip"></i>
+</button>
+<button class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2">
+<i class="fa-solid fa-list"></i>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="wishlist-grid">
+<div class="bg-gray-800 rounded-xl overflow-hidden">
+<div class="relative">
+<img alt="star wars darth vader action figure collectible on display" class="w-full h-48 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/06fc30c4b9-9b583cd74f3801a4b19b.png"/>
+<div class="absolute top-2 right-2">
+<span class="bg-green-500 text-white px-2 py-1 rounded-lg text-sm">In Stock</span>
+</div>
+</div>
+<div class="p-4">
+<h3 class="text-xl font-bold mb-2">Darth Vader Premium Figure</h3>
+<p class="text-2xl text-yellow-400 mb-4">$299.99</p>
+<div class="flex space-x-2 mb-4">
+<button class="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">
+                            Move to Cart
+                        </button>
+<button class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg">
+<i class="fa-solid fa-trash"></i>
+</button>
+</div>
+<div class="border-t border-gray-700 pt-4">
+<button class="text-gray-400 hover:text-yellow-400 w-full text-left">
+<i class="fa-solid fa-bell mr-2"></i> Set Price Alert
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-gray-800 rounded-xl overflow-hidden">
+<div class="relative">
+<img alt="vintage star wars movie poster collectible" class="w-full h-48 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3506b11046-4ceb132affc9c8278b71.png"/>
+<div class="absolute top-2 right-2">
+<span class="bg-red-500 text-white px-2 py-1 rounded-lg text-sm">Out of Stock</span>
+</div>
+</div>
+<div class="p-4">
+<h3 class="text-xl font-bold mb-2">Original Trilogy Poster Set</h3>
+<p class="text-2xl text-yellow-400 mb-4">$199.99</p>
+<div class="flex space-x-2 mb-4">
+<button class="flex-1 bg-gray-700 cursor-not-allowed px-4 py-2 rounded-lg opacity-50">
+                            Move to Cart
+                        </button>
+<button class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg">
+<i class="fa-solid fa-trash"></i>
+</button>
+</div>
+<div class="border-t border-gray-700 pt-4">
+<button class="text-gray-400 hover:text-yellow-400 w-full text-left">
+<i class="fa-solid fa-bell mr-2"></i> Notify When Available
+                        </button>
+</div>
+</div>
+</div>
+<div class="bg-gray-800 rounded-xl overflow-hidden">
+<div class="relative">
+<img alt="millennium falcon lego set collectible" class="w-full h-48 object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/09a08e39e6-1b2d1d57e37e320ee05e.png"/>
+<div class="absolute top-2 right-2">
+<span class="bg-green-500 text-white px-2 py-1 rounded-lg text-sm">In Stock</span>
+</div>
+</div>
+<div class="p-4">
+<h3 class="text-xl font-bold mb-2">Millennium Falcon LEGO Set</h3>
+<p class="text-2xl text-yellow-400 mb-4">$799.99</p>
+<div class="flex space-x-2 mb-4">
+<button class="flex-1 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">
+                            Move to Cart
+                        </button>
+<button class="bg-gray-700 hover:bg-gray-600 px-3 py-2 rounded-lg">
+<i class="fa-solid fa-trash"></i>
+</button>
+</div>
+<div class="border-t border-gray-700 pt-4">
+<button class="text-gray-400 hover:text-yellow-400 w-full text-left">
+<i class="fa-solid fa-bell mr-2"></i> Set Price Alert
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-12" id="recommended-section">
+<h2 class="text-2xl font-bold mb-6">Recommended For You</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-gray-800 rounded-xl p-4">
+<img alt="star wars stormtrooper helmet collectible" class="w-full h-32 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/82e54ae473-60b63284b3394fa59552.png"/>
+<h4 class="font-bold mb-2">Stormtrooper Helmet</h4>
+<p class="text-yellow-400">$199.99</p>
+<button class="w-full bg-gray-700 hover:bg-gray-600 mt-4 px-4 py-2 rounded-lg">
+                        Add to Wishlist
+                    </button>
+</div>
+<div class="bg-gray-800 rounded-xl p-4">
+<img alt="star wars lightsaber replica collectible" class="w-full h-32 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1add3d3f1c-d2e5a2f872079b0022a2.png"/>
+<h4 class="font-bold mb-2">Luke's Lightsaber</h4>
+<p class="text-yellow-400">$299.99</p>
+<button class="w-full bg-gray-700 hover:bg-gray-600 mt-4 px-4 py-2 rounded-lg">
+                        Add to Wishlist
+                    </button>
+</div>
+<div class="bg-gray-800 rounded-xl p-4">
+<img alt="yoda statue collectible star wars" class="w-full h-32 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/db7a67a413-35cb62735ddd17e5cfa6.png"/>
+<h4 class="font-bold mb-2">Yoda Statue</h4>
+<p class="text-yellow-400">$149.99</p>
+<button class="w-full bg-gray-700 hover:bg-gray-600 mt-4 px-4 py-2 rounded-lg">
+                        Add to Wishlist
+                    </button>
+</div>
+<div class="bg-gray-800 rounded-xl p-4">
+<img alt="mandalorian helmet collectible" class="w-full h-32 object-cover rounded-lg mb-4" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/c5a2060ba1-0e5a3f4153dcfaa95b1a.png"/>
+<h4 class="font-bold mb-2">Mandalorian Helmet</h4>
+<p class="text-yellow-400">$399.99</p>
+<button class="w-full bg-gray-700 hover:bg-gray-600 mt-4 px-4 py-2 rounded-lg">
+                        Add to Wishlist
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-900 pt-20 pb-10" id="footer">
+<div class="container mx-auto px-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div>
+<div class="flex items-center mb-6">
+<i class="fa-brands fa-jedi-order text-3xl text-yellow-500 mr-3"></i>
+<span class="text-xl font-bold">The Galactic Hub</span>
+</div>
+<p class="text-gray-400">Your trusted source for Star Wars collectibles since 2020.</p>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><span class="text-gray-400 hover:text-white cursor-pointer">About Us</span></li>
+<li><span class="text-gray-400 hover:text-white cursor-pointer">Contact</span></li>
+<li><span class="text-gray-400 hover:text-white cursor-pointer">FAQs</span></li>
+<li><span class="text-gray-400 hover:text-white cursor-pointer">Terms &amp; Conditions</span></li>
+</ul>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Connect With Us</h3>
+<div class="flex space-x-4">
+<span class="text-gray-400 hover:text-white text-2xl cursor-pointer">
+<i class="fa-brands fa-facebook"></i>
+</span>
+<span class="text-gray-400 hover:text-white text-2xl cursor-pointer">
+<i class="fa-brands fa-twitter"></i>
+</span>
+<span class="text-gray-400 hover:text-white text-2xl cursor-pointer">
+<i class="fa-brands fa-instagram"></i>
+</span>
+<span class="text-gray-400 hover:text-white text-2xl cursor-pointer">
+<i class="fa-brands fa-discord"></i>
+</span>
+</div>
+</div>
+<div>
+<h3 class="text-lg font-bold mb-4">Newsletter</h3>
+<p class="text-gray-400 mb-4">Subscribe for updates and exclusive offers</p>
+<div class="flex">
+<input class="bg-gray-800 border border-gray-700 rounded-l-lg px-4 py-2 w-full" placeholder="Enter your email" type="email"/>
+<button class="bg-yellow-500 text-black px-4 rounded-r-lg hover:bg-yellow-400">
+              Subscribe
+            </button>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+<p>© 2025 The Galactic Hub. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
