@@ -4,7 +4,7 @@
 
 2. Run Docker Dekstop
 
-3. CD into galactic_hub_complete_mvp and run locally via Terminal:
+3. CD into galactic_hub_mvp and run locally via Terminal:
 ```
 docker-compose up --build
 ```
