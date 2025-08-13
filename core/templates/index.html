@@ -1,4 +1,6 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html class="">
 <head>
@@ -22,30 +24,7 @@
 </head>
 <body class="h-full text-base-content">
   <div class="bg-black text-gray-200">
-    <header class="fixed w-full bg-black/90 backdrop-blur-lg border-b border-gray-800 z-50" id="header">
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-20">
-          <div class="flex items-center">
-            <i class="fa-brands fa-jedi-order text-4xl text-yellow-500 mr-3"></i>
-            <span class="text-2xl font-bold">The Galactic Hub</span>
-          </div>
-          <nav class="hidden md:flex space-x-8">
-            <a class="hover:text-yellow-500" href="{% url 'index' %}">Home</a>
-            <a class="hover:text-yellow-500" href="{% url 'products' %}">Shop</a>
-            <a class="hover:text-yellow-500" href="{% url 'inventory_dashboard' %}">Inventory</a>
-            <a class="hover:text-yellow-500" href="{% url 'auction' %}">Auctions</a>
-            <a class="hover:text-yellow-500" href="{% url 'wishlist' %}">Wishlist</a>
-          </nav>
-          <div class="flex items-center space-x-4">
-            <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-search"></i></button>
-            <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-user"></i></button>
-            <button class="p-2 hover:text-yellow-500"><i class="fa-solid fa-shopping-cart mr-2"></i></button>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <section class="h-[800px] relative overflow-hidden pt-20" id="hero">
+      <section class="h-[800px] relative overflow-hidden pt-20" id="hero">
       <div class="absolute inset-0">
         <img alt="epic star wars collectibles display with dramatic lighting and fog effects, cinematic"
              class="w-full h-full object-cover opacity-50" src="media/static/images/hero.png"/>
@@ -137,3 +116,4 @@
   </div>
 </body>
 </html>
+{% endblock %}
